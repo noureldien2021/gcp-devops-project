@@ -13,6 +13,6 @@ steps:
     - run
     - --filename=gke.yaml                    #name of deploymen file
     - --image=gcr.io/$PROJECT_ID/gcpdevops   #name of docker image
-    - --location=us-central1-c               #location of cluster
+    - --location=us-central1              #location of cluster
     - --cluster=devops-cluster           #name of cluster
     - --namespace=devops-ns           #name of namespace in cluster
