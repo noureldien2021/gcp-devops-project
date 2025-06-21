@@ -1,6 +1,18 @@
 steps:
-  - name: 'docker'
-    args: ["build", "-t", "gcr.io/$PROJECT_ID/my-flask-app", "."]
+  # build the container image
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["build", "-t", "gcr.io/$PROJECT_ID/gcpdevops", "."]
+  
+  # push container image
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/gcpdevops"]
 
-images:
-  - "gcr.io/$PROJECT_ID/my-flask-app"
+  # deploy container image to GKE
+  - name: "gcr.io/cloud-builders/gke-deploy"
+    args:
+    - run
+    - --filename=gke.yaml                    #name of deploymen file
+    - --image=gcr.io/$PROJECT_ID/gcpdevops   #name of docker image
+    - --location=us-central1-c               #location of cluster
+    - --cluster=devops-cluster           #name of cluster
+    - --namespace=devops-ns           #name of namespace in cluster
